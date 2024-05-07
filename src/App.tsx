@@ -1,61 +1,74 @@
-import React, { useState } from 'react';
+import React, { SetStateAction, useEffect, useState } from "react";
 import {
   PieChartOutlined,
   TeamOutlined,
   UserOutlined,
-  SettingFilled
-} from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+  SettingFilled,
+  HomeOutlined,
+  LinkOutlined,
+} from "@ant-design/icons";
+import type { MenuProps } from "antd";
+import { Breadcrumb, Layout, Menu, theme } from "antd";
+import { Outlet, useLocation } from "react-router";
+import { NavLink } from "react-router-dom";
 
 const { Header, Content, Footer, Sider } = Layout;
 
-type MenuItem = Required<MenuProps>['items'][number];
+type MenuItem = Required<MenuProps>["items"][number];
 
 function getItem(
   label: React.ReactNode,
-  key: React.Key,
+  key: string,
   icon?: React.ReactNode,
-  children?: MenuItem[],
+  children?: MenuItem[]
 ): MenuItem {
   return {
-    key,
-    icon,
-    children,
-    label,
+    key: key,
+    icon: icon,
+    children: children,
+    label: <NavLink to={key}>{label}</NavLink>,
   } as MenuItem;
 }
 
-const items: MenuItem[] = [
-  getItem('总览', '1', <PieChartOutlined />),
-  getItem('User', 'sub1', <UserOutlined />, [
-    getItem('Tom', '3'),
-    getItem('Bill', '4'),
-    getItem('Alex', '5'),
-  ]),
-  getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-  getItem('设置', '9', <SettingFilled />),
+const menuItems: MenuItem[] = [
+  getItem("Home", "/Home", <HomeOutlined />),
+  getItem("Links", "/Links", <LinkOutlined />),
 ];
 
-const App: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(false);
+const App = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  const [collapsed, setCollapsed] = useState(false);
+  const [currentMenu, setCurrentMenu] = useState({});
+  const [selectedKeys, setSelectedKeys] = useState([]);
+  const location = useLocation();
+  useEffect(() => {
+    setSelectedKeys([location.pathname as never]);
+    // @ts-ignore - 懒得写类型、ignore掉
+    setCurrentMenu(menuItems.find((item) => item.key === location.pathname));
+  }, [location]);
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
-      <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+    <Layout style={{ minHeight: "100vh" }}>
+      <Sider
+        collapsible
+        theme="light"
+        collapsed={collapsed}
+        onCollapse={(value) => setCollapsed(value)}
+      >
         <div className="demo-logo-vertical" />
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
+        <Menu
+          theme="light"
+          defaultSelectedKeys={["/Home"]}
+          selectedKeys={selectedKeys}
+          mode="inline"
+          items={menuItems}
+        />
       </Sider>
       <Layout>
         <Header style={{ padding: 0, background: colorBgContainer }} />
-        <Content style={{ margin: '0 16px' }}>
-          <Breadcrumb style={{ margin: '16px 0' }}>
-            <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>Bill</Breadcrumb.Item>
-          </Breadcrumb>
+        <Content style={{ margin: "16px 16px" }}>
           <div
             style={{
               padding: 24,
@@ -64,11 +77,11 @@ const App: React.FC = () => {
               borderRadius: borderRadiusLG,
             }}
           >
-            Bill is a cat.
+            <Outlet />
           </div>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>
-          Ant Design ©{new Date().getFullYear()} Created by Ant UED
+        <Footer style={{ textAlign: "center" }}>
+          PermissionCore-Web ©{new Date().getFullYear()} License GPL-3.0
         </Footer>
       </Layout>
     </Layout>
