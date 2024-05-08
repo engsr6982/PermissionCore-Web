@@ -10,6 +10,7 @@ import type { MenuProps } from "antd";
 import { Layout, Menu, theme } from "antd";
 import { Outlet, useLocation } from "react-router";
 import { NavLink } from "react-router-dom";
+import { checkBackendSetting } from "./Backend/backend";
 
 const { Content, Footer, Sider } = Layout;
 
@@ -54,6 +55,8 @@ const App = () => {
     // @ts-ignore - 懒得写类型、ignore掉
     setCurrentMenu(menuItems.find((item) => item.key === location.pathname));
   }, [location]);
+
+  checkBackendSetting();
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
