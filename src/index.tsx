@@ -1,11 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import App from './App';
-import Home from './Pages/Home';
-import Links from './Pages/Links';
+
+import App from "./App";
+import Home from "./Pages/Home";
+import Manager from "./Pages/Manager";
+import Setting from "./Pages/Setting";
+import About from "./Pages/About";
 
 const router = createBrowserRouter([
   {
@@ -21,14 +24,22 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/Links",
-        element: <Links />,
-      }
+        path: "/Manager",
+        element: <Manager />,
+      },
+      {
+        path: "/Setting",
+        element: <Setting />,
+      },
+      {
+        path: "/About",
+        element: <About />,
+      },
     ],
   },
 ]);
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <RouterProvider router={router} />
   </React.StrictMode>

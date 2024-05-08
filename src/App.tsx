@@ -1,18 +1,17 @@
-import React, { SetStateAction, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   PieChartOutlined,
   TeamOutlined,
-  UserOutlined,
-  SettingFilled,
-  HomeOutlined,
-  LinkOutlined,
+  InfoCircleOutlined,
+  SettingOutlined,
+  GithubOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Breadcrumb, Layout, Menu, theme } from "antd";
+import { Layout, Menu, theme } from "antd";
 import { Outlet, useLocation } from "react-router";
 import { NavLink } from "react-router-dom";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Footer, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -31,8 +30,15 @@ function getItem(
 }
 
 const menuItems: MenuItem[] = [
-  getItem("Home", "/Home", <HomeOutlined />),
-  getItem("Links", "/Links", <LinkOutlined />),
+  getItem("总览", "/Home", <PieChartOutlined />),
+  getItem("管理", "/Manager", <TeamOutlined />),
+  getItem("设置", "/Setting", <SettingOutlined />),
+  getItem("关于", "/About", <InfoCircleOutlined />),
+  getItem(
+    "仓库",
+    "https://github.com/engsr6982/PermissionCore-Web",
+    <GithubOutlined />
+  ),
 ];
 
 const App = () => {
@@ -55,9 +61,9 @@ const App = () => {
         collapsible
         theme="light"
         collapsed={collapsed}
+        collapsedWidth={55}
         onCollapse={(value) => setCollapsed(value)}
       >
-        <div className="demo-logo-vertical" />
         <Menu
           theme="light"
           defaultSelectedKeys={["/Home"]}
@@ -66,13 +72,12 @@ const App = () => {
           items={menuItems}
         />
       </Sider>
-      <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }} />
-        <Content style={{ margin: "16px 16px" }}>
+      <Layout style={{ height: "100vh" }}>
+        <Content style={{ margin: "10px" }}>
           <div
             style={{
-              padding: 24,
-              minHeight: 360,
+              padding: 16,
+              height: "100%",
               background: colorBgContainer,
               borderRadius: borderRadiusLG,
             }}
