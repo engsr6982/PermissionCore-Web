@@ -11,7 +11,7 @@ import Password from "antd/es/input/Password";
 async function validateSetting(setting: BackendSetting) {
   try {
     const response = await axios.get(
-      `${formatUrl(setting.ip, setting.port, setting.protocols)}/pmc/validate`,
+      `${formatUrl(setting.ip, setting.port, setting.protocols)}/api/validate`,
       {
         headers: {
           Authorization: `Bearer ${setting.token}`,

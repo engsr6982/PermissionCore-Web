@@ -76,10 +76,10 @@ const App = () => {
         />
       </Sider>
       <Layout style={{ height: "100vh" }}>
-        <Content style={{ margin: "10px" }}>
+        <Content style={{ margin: "0px" }}>
           <div
             style={{
-              padding: 16,
+              padding: 15,
               height: "100%",
               background: colorBgContainer,
               borderRadius: borderRadiusLG,
@@ -88,9 +88,6 @@ const App = () => {
             <Outlet />
           </div>
         </Content>
-        <Footer style={{ textAlign: "center" }}>
-          PermissionCore-Web ©{new Date().getFullYear()} License GPL-3.0
-        </Footer>
       </Layout>
     </Layout>
   );
