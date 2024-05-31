@@ -14,7 +14,9 @@ import {
   Card,
   Breadcrumb,
 } from "antd";
-import { HomeOutlined } from "@ant-design/icons";
+import { HomeOutlined, PlusOutlined } from "@ant-design/icons";
+import Ribbon from "antd/es/badge/Ribbon";
+import Paragraph from "antd/es/skeleton/Paragraph";
 
 type QPermType = {
   name: string;
@@ -86,22 +88,52 @@ const RenderPlugins: React.FC<RenderProps> = ({ setCurrentStep }) => {
   }, []);
 
   return (
-    <Row gutter={16}>
-      {plugins.map((plugin, index) => (
-        <Col key={index} span={8}>
-          <Card
-            title={plugin}
-            bordered={false}
-            onClick={() => {
-              mSelectedPlugin = plugin;
-              setCurrentStep(1); // 假设点击卡片后进入下一步
-            }}
-          >
-            点击查看 {plugin} 插件的详细信息
-          </Card>
-        </Col>
-      ))}
-    </Row>
+    <div>
+      <List
+        bordered={true}
+        grid={{
+          gutter: 0,
+          xs: 1,
+          sm: 2,
+          md: 3,
+          lg: 3,
+          xl: 4,
+          xxl: 4,
+        }}
+        style={{
+          height: "100hv",
+          overflowY: "auto",
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+        }}
+        dataSource={["__0_ADD", ...plugins]}
+        renderItem={(mItem) => {
+          if (mItem !== "__0_ADD") {
+            return (
+              <List.Item
+                key={mItem as string}
+                style={{ width: "100%", height: "100%" }}
+              >
+                <Card title={"插件"} actions={[<a>编辑</a>, <a>删除</a>]}>
+                  {mItem}
+                </Card>
+              </List.Item>
+            );
+          }
+          return (
+            <List.Item>
+              <Button
+                key={"__0_ADD"}
+                type="dashed"
+                style={{ width: "100%", height: "201px" }}
+              >
+                <PlusOutlined /> 新建权限组
+              </Button>
+            </List.Item>
+          );
+        }}
+      />
+    </div>
   );
 };
 
